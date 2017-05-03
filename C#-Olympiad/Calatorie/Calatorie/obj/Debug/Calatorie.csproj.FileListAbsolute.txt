@@ -1,0 +1,13 @@
+c:\users\irina\documents\visual studio 2015\Projects\Calatorie\Calatorie\bin\Debug\Calatorie.exe.config
+c:\users\irina\documents\visual studio 2015\Projects\Calatorie\Calatorie\bin\Debug\DBTimpSpatiu.mdf
+c:\users\irina\documents\visual studio 2015\Projects\Calatorie\Calatorie\bin\Debug\DBTimpSpatiu_log.ldf
+c:\users\irina\documents\visual studio 2015\Projects\Calatorie\Calatorie\bin\Debug\Calatorie.exe
+c:\users\irina\documents\visual studio 2015\Projects\Calatorie\Calatorie\bin\Debug\Calatorie.pdb
+c:\users\irina\documents\visual studio 2015\Projects\Calatorie\Calatorie\obj\Debug\Calatorie.Autentificare.resources
+c:\users\irina\documents\visual studio 2015\Projects\Calatorie\Calatorie\obj\Debug\Calatorie.Properties.Resources.resources
+c:\users\irina\documents\visual studio 2015\Projects\Calatorie\Calatorie\obj\Debug\Calatorie.csproj.GenerateResource.Cache
+c:\users\irina\documents\visual studio 2015\Projects\Calatorie\Calatorie\obj\Debug\Calatorie.exe
+c:\users\irina\documents\visual studio 2015\Projects\Calatorie\Calatorie\obj\Debug\Calatorie.pdb
+C:\Users\irina\documents\visual studio 2015\Projects\Calatorie\Calatorie\obj\Debug\Calatorie.csprojResolveAssemblyReference.cache
+C:\Users\irina\documents\visual studio 2015\Projects\Calatorie\Calatorie\obj\Debug\Calatorie.Forms.MDI.resources
+C:\Users\irina\documents\visual studio 2015\Projects\Calatorie\Calatorie\obj\Debug\Calatorie.Forms.Administrare.resources

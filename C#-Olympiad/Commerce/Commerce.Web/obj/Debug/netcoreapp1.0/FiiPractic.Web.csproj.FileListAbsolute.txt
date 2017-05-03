@@ -1,0 +1,11 @@
+C:\Users\irina\Desktop\Project fiipractic .net week 5\FiiPractic\FiiPractic.Web\bin\Debug\netcoreapp1.0\FiiPractic.Web.deps.json
+C:\Users\irina\Desktop\Project fiipractic .net week 5\FiiPractic\FiiPractic.Web\bin\Debug\netcoreapp1.0\FiiPractic.Web.dll
+C:\Users\irina\Desktop\Project fiipractic .net week 5\FiiPractic\FiiPractic.Web\bin\Debug\netcoreapp1.0\FiiPractic.Web.pdb
+C:\Users\irina\Desktop\Project fiipractic .net week 5\FiiPractic\FiiPractic.Web\bin\Debug\netcoreapp1.0\FiiPractic.Data.dll
+C:\Users\irina\Desktop\Project fiipractic .net week 5\FiiPractic\FiiPractic.Web\bin\Debug\netcoreapp1.0\FiiPractic.Services.dll
+C:\Users\irina\Desktop\Project fiipractic .net week 5\FiiPractic\FiiPractic.Web\bin\Debug\netcoreapp1.0\FiiPractic.Services.pdb
+C:\Users\irina\Desktop\Project fiipractic .net week 5\FiiPractic\FiiPractic.Web\bin\Debug\netcoreapp1.0\FiiPractic.Data.pdb
+C:\Users\irina\Desktop\Project fiipractic .net week 5\FiiPractic\FiiPractic.Web\obj\Debug\netcoreapp1.0\FiiPractic.Web.csprojResolveAssemblyReference.cache
+C:\Users\irina\Desktop\Project fiipractic .net week 5\FiiPractic\FiiPractic.Web\obj\Debug\netcoreapp1.0\FiiPractic.Web.AssemblyInfo.cs
+C:\Users\irina\Desktop\Project fiipractic .net week 5\FiiPractic\FiiPractic.Web\obj\Debug\netcoreapp1.0\FiiPractic.Web.dll
+C:\Users\irina\Desktop\Project fiipractic .net week 5\FiiPractic\FiiPractic.Web\obj\Debug\netcoreapp1.0\FiiPractic.Web.pdb

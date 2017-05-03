@@ -1,0 +1,55 @@
+@model IEnumerable<Commerce.Web.ViewModels.Products.ProductGridItem>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Edit">Create New</a>
+</p>
+
+<form asp-controller="Products" asp-action="Search">
+    <p>
+        <input type="text" name="productName">
+        <input type="submit" value="Search" />
+    </p>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GroupName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                   @item.ProductId
+                </td>
+                <td>
+                   @item.Name
+                </td>
+                <td>
+                   @item.GroupName
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-productid="@item.ProductId">Edit</a> |
+                    <a asp-action="Details" asp-route-productid="@item.ProductId">Details</a> |
+                    <a asp-action="Delete" asp-route-productid="@item.ProductId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

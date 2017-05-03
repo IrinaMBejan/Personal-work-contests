@@ -1,0 +1,15 @@
+C:\Users\irina\documents\visual studio 2015\Projects\GoodFood\GoodFood\bin\Debug\GoodFood.exe
+C:\Users\irina\documents\visual studio 2015\Projects\GoodFood\GoodFood\bin\Debug\GoodFood.exe.config
+C:\Users\irina\documents\visual studio 2015\Projects\GoodFood\GoodFood\bin\Debug\GOOD_FOOD.mdf
+C:\Users\irina\documents\visual studio 2015\Projects\GoodFood\GoodFood\bin\Debug\GOOD_FOOD_log.ldf
+C:\Users\irina\documents\visual studio 2015\Projects\GoodFood\GoodFood\bin\Debug\GoodFood.pdb
+C:\Users\irina\documents\visual studio 2015\Projects\GoodFood\GoodFood\obj\Debug\GoodFood.RegisterForm.resources
+C:\Users\irina\documents\visual studio 2015\Projects\GoodFood\GoodFood\obj\Debug\GoodFood.StartForm.resources
+C:\Users\irina\documents\visual studio 2015\Projects\GoodFood\GoodFood\obj\Debug\GoodFood.Properties.Resources.resources
+C:\Users\irina\documents\visual studio 2015\Projects\GoodFood\GoodFood\obj\Debug\GoodFood.csproj.GenerateResource.Cache
+C:\Users\irina\documents\visual studio 2015\Projects\GoodFood\GoodFood\obj\Debug\GoodFood.exe
+C:\Users\irina\documents\visual studio 2015\Projects\GoodFood\GoodFood\obj\Debug\GoodFood.pdb
+C:\Users\irina\documents\visual studio 2015\Projects\GoodFood\GoodFood\obj\Debug\GoodFood.Forms.LoggingForm.resources
+C:\Users\irina\documents\visual studio 2015\Projects\GoodFood\GoodFood\obj\Debug\GoodFood.Forms.OptiuniForm.resources
+C:\Users\irina\documents\visual studio 2015\Projects\GoodFood\GoodFood\obj\Debug\GoodFood.Forms.ViewCommandForm.resources
+C:\Users\irina\documents\visual studio 2015\Projects\GoodFood\GoodFood\obj\Debug\GoodFood.csprojResolveAssemblyReference.cache

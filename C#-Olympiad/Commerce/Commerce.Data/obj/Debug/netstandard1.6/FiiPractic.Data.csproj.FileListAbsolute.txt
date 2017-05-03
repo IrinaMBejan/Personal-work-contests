@@ -1,0 +1,7 @@
+C:\Users\irina\Desktop\Project fiipractic .net week 5\FiiPractic\FiiPractic.Data\bin\Debug\netstandard1.6\FiiPractic.Data.deps.json
+C:\Users\irina\Desktop\Project fiipractic .net week 5\FiiPractic\FiiPractic.Data\bin\Debug\netstandard1.6\FiiPractic.Data.dll
+C:\Users\irina\Desktop\Project fiipractic .net week 5\FiiPractic\FiiPractic.Data\bin\Debug\netstandard1.6\FiiPractic.Data.pdb
+C:\Users\irina\Desktop\Project fiipractic .net week 5\FiiPractic\FiiPractic.Data\obj\Debug\netstandard1.6\FiiPractic.Data.AssemblyInfo.cs
+C:\Users\irina\Desktop\Project fiipractic .net week 5\FiiPractic\FiiPractic.Data\obj\Debug\netstandard1.6\FiiPractic.Data.dll
+C:\Users\irina\Desktop\Project fiipractic .net week 5\FiiPractic\FiiPractic.Data\obj\Debug\netstandard1.6\FiiPractic.Data.pdb
+C:\Users\irina\Desktop\Project fiipractic .net week 5\FiiPractic\FiiPractic.Data\obj\Debug\netstandard1.6\FiiPractic.Data.csprojResolveAssemblyReference.cache
