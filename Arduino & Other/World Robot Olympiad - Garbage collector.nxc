@@ -1,0 +1,416 @@
+mutex moveMutex;
+
+//A motor gheara, B motor stanga, C motor dreapta. S1 dreapta, S2 stanga;
+
+int InterCounter;
+int GreenCounter;
+bool NOTon = true;
+bool OnRoad;
+bool S2onBlack=false;
+bool S2onGreen=false;
+bool Flag = 0;
+bool NOTFS = true;
+const int maxSpeed = 45;
+int maxSpeedF = 40;
+const int internumber = 4;
+bool GoingHomie = false;
+bool EndOfRoad = false;
+
+sub Start();
+task FollowLine();
+task Counter();
+task BallChecker();
+int Intersection();
+int IntersectionGreen();
+task FollowBlackLine();
+task FactorySatelliteWatcher();
+task CounterGreen();
+
+task main()
+{
+
+     InterCounter = 0; //numarul de intersectii parcurse pana acum
+     GreenCounter = 0;
+     SetSensorColorFull(S4);   //Senzor culoare garbage port 4
+     SetSensorColorFull(S2);   //Senzor culoare dreapta port 2
+     SetSensorColorFull(S3);   //Senzor culoare stanga port 3
+     SetSensorLowspeed(S1);  //Senzor US port 4
+
+
+     Wait(3000);
+     OnFwd(OUT_BC,maxSpeed);
+     Wait(1600);     //pornim robotul din casa, mergand inainte
+     OnRev(OUT_C, maxSpeed);
+     Wait(600);     //se roteste la 70 de grade.
+     Off(OUT_BC);
+
+     OnRoad = true;
+     Precedes(FollowLine,BallChecker,Counter);
+
+}
+
+
+task Counter()
+{
+   while( OnRoad ) //cat timp inca nu am parcurs tot drumul
+   {
+      if ( InterCounter >= internumber ) //daca am trecut pe toate cele 4 intersectii
+      {
+          OnRoad = false; // tot drumul de verificat e parcurs
+          Acquire(moveMutex); //preia functiile motoarelor
+          Wait(100);
+          OnRev(OUT_C, maxSpeed); Wait(600);//se intoarce cu 180 grade
+          Wait(100);
+          {OnFwd(OUT_B,40);
+           OnRev(OUT_C,45);
+          }Wait(2950);
+          Off(OUT_BC);
+          Release(moveMutex);
+          ExitTo(FactorySatelliteWatcher);
+          //Precedes(FollowBlackLine,CounterGreen,FactorySatelliteWatcher);
+
+      }
+      else
+      if(Flag == 1 && S2onBlack == false)
+        Intersection();
+   }
+}
+
+task FactorySatelliteWatcher()
+{
+          while( NOTFS )     //cat timp nu l-a gasit
+          {
+           if( SensorUS(IN_1) <= 70 )   //daca e mai aproape de 70 de cm
+             {
+               PlayTone(1970,500);
+               Acquire(moveMutex);
+               {
+                  NOTFS= false;
+                  Wait(100);
+                  {OnFwd(OUT_B,-75);    //da inapoi si varsa bilele
+                   OnFwd(OUT_C,-82);} Wait(1450);
+               }
+               Release(moveMutex);
+               Precedes(FollowBlackLine, CounterGreen);
+             }
+          }
+}
+
+task CounterGreen()
+{
+   while( true )
+   {
+        if(Flag == 1 && S2onGreen == false)
+           IntersectionGreen();
+   }
+}
+
+task FollowLine()
+{
+     //variabile citire senzor RGB
+     unsigned int rawData[], normData[];
+     int scaledData[];
+     int cval;
+     int result;
+
+     //TRUE - se afla pe verde, FALSE - nu se afla
+     bool sensor1, sensor2;
+
+     //Three possible states - Both outside(A,C), only one outside(A/C)
+
+
+     while ( OnRoad )  //cat inca avem linie neparcursa
+       if(NOTon)
+       {
+         //Citire si verificare senzor 1
+         result = ReadSensorColorEx(S2, cval, rawData, normData, scaledData);
+         sensor1 = ((cval == 3) || (cval == 4));
+         NumOut(0,LCD_LINE1,cval);
+
+         //Citire si verificare senzor 2
+         result = ReadSensorColorEx(S3, cval, rawData, normData, scaledData);
+         sensor2 = ((cval == 3) || (cval == 4));
+         NumOut(0,LCD_LINE2,cval);
+
+         if ( !sensor2 && cval == 1 && S2onBlack == false && NOTon )     //numara intersectiile negre intalnite
+            Flag=1;
+
+         if (sensor1 == false && sensor2 == false && NOTon && OnRoad )    //state one
+         {
+                 Acquire(moveMutex);
+                 while (sensor1 == false && sensor2 == false && NOTon && OnRoad)
+                 {
+                        OnFwd(OUT_BC, maxSpeedF);
+                        Release(moveMutex);
+
+                        result = ReadSensorColorEx(S2, cval, rawData, normData, scaledData);
+                        sensor1 = ((cval == 3) || (cval == 4));
+
+                        result = ReadSensorColorEx(S3, cval, rawData, normData, scaledData);
+                        sensor2 = ((cval == 3) || (cval == 4));
+
+                        if ( !sensor2 && cval == 1 && S2onBlack == false && NOTon )
+                             Flag=1;
+
+                 }
+                 Off(OUT_BC);
+                 Release(moveMutex);
+          }
+
+         //state 2 - only one outside - miscare doar pe motoarele omoloage
+         if( sensor1 == true && sensor2 == false && NOTon && OnRoad)
+         {
+                 Acquire(moveMutex);
+                 while (sensor1 == true && sensor2 == false && NOTon && OnRoad)
+                 {
+                        OnFwd(OUT_B, maxSpeedF);
+                        result = ReadSensorColorEx(S2, cval, rawData, normData, scaledData);
+                        sensor1 = ((cval == 3) || (cval == 4));
+
+                        result = ReadSensorColorEx(S3, cval, rawData, normData, scaledData);
+                        sensor2 = ((cval == 3) || (cval == 4));
+
+                        if ( !sensor2 && cval == 1 && S2onBlack==false && NOTon )
+                             Flag=1;
+                 }
+                 Off(OUT_B);
+                 Release(moveMutex);
+         }
+
+         if(sensor1 == false && sensor2 == true && NOTon && OnRoad)
+         {
+                 Acquire(moveMutex);
+                 while (sensor1 == false && sensor2 == true && NOTon && OnRoad)
+                 {
+                        OnFwd(OUT_C, maxSpeedF);
+                        result = ReadSensorColorEx(S2, cval, rawData, normData, scaledData);
+                        sensor1 = ((cval == 3) || (cval == 4));
+
+                        result = ReadSensorColorEx(S3, cval, rawData, normData, scaledData);
+                        sensor2 = ((cval == 3) || (cval == 4));
+
+                        if ( !sensor2 && cval == 1 && S2onBlack==false && NOTon )
+                             Flag=1;
+                }
+                Off(OUT_C);
+                Release(moveMutex);
+         }
+      }
+}
+
+int Intersection()
+{
+       S2onBlack=true;
+       InterCounter++;
+       maxSpeedF = 30;
+       PlayTone(440, 500);
+       Wait(100);
+       Wait(1300);
+       Flag = 0;
+       maxSpeedF = 40;
+       S2onBlack=false;
+}
+
+int IntersectionGreen()
+{
+       S2onGreen=true;
+       GreenCounter++;
+       PlayTone(440, 500);
+       Wait(100);
+       Wait(1000);
+       Flag = 0;
+       S2onGreen=false;
+}
+
+task BallChecker()
+{
+     //variabile citire senzor RGB
+     unsigned int rawData[], normData[];
+     int scaledData[];
+     int cval;
+     int result;
+
+     while( OnRoad )
+     {
+             result = ReadSensorColorEx(S4, cval, rawData, normData, scaledData);
+             if(cval != 1)
+             {
+                        result = ReadSensorColorEx(S4, cval, rawData, normData, scaledData);
+
+                        if (cval == 5 && NOTon == true && OnRoad)   //daca e rosu
+                        {
+                           NOTon=false;
+                           Acquire(moveMutex);
+                           Wait(200);
+                           RotateMotor(OUT_BC, 20,20);
+
+                           OnFwd(OUT_A,-75); Wait(300);
+                           Wait(1000);
+                           OnFwd(OUT_A,15); Wait(100);
+                           Wait(100);
+                           OnFwd(OUT_A,32); Wait(900);
+                           Coast(OUT_A);
+                           
+                           Wait(600);
+                           NOTon=true;
+                           Release(moveMutex);
+                       }
+
+                       if (cval == 2 && NOTon == true && OnRoad)  //daca e albastru
+                       {
+
+                          NOTon=false;
+                          Acquire(moveMutex);
+
+                          Wait(200);
+                          OnFwd(OUT_BC, -maxSpeed); Wait(150); //da inapoi
+                          Wait(250);
+                          OnFwd(OUT_A,-65); Wait(400);
+                          {
+                           OnFwd(OUT_C, 35);
+                           OnFwd(OUT_B, 35);
+                          } Wait(2225); //da inainte
+
+                          Off(OUT_BC);
+
+                          OnFwd(OUT_A,15); Wait(100);
+                          Wait(100);
+                          OnFwd(OUT_A,32); Wait(900);
+                          Coast(OUT_A);
+
+                          Wait(600);
+                          NOTon=true;
+                          Release(moveMutex);
+                      }
+             }
+     }
+}
+
+
+task FollowBlackLine()
+{
+     //variabile citire senzor RGB
+     unsigned int rawData[], normData[];
+     int scaledData[];
+     int cval;
+     int result;
+
+     bool sensor1, sensor2;
+
+     while ( !GreenCounter )  //cat inca NU am intalnit cosul
+       {
+         //Citire si verificare senzor 1
+         result = ReadSensorColorEx(S2, cval, rawData, normData, scaledData);
+         sensor1 = (cval == 1);
+
+         if ((cval == 3 || cval == 4) && S2onGreen == false )
+                   Flag=1;
+
+         //Citire si verificare senzor 2
+         result = ReadSensorColorEx(S3, cval, rawData, normData, scaledData);
+         sensor2 = (cval == 1);
+
+         if ((cval == 3 || cval == 4) && S2onGreen == false )
+                   Flag=1;
+
+
+         if (sensor1 == false && sensor2 == false && !GreenCounter )    //state one
+         {
+                 Acquire(moveMutex);
+                 while (sensor1 == false && sensor2 == false && !GreenCounter )
+                 {
+                        OnFwd(OUT_BC, maxSpeedF);
+
+                        result = ReadSensorColorEx(S2, cval, rawData, normData, scaledData);
+                        sensor1 = (cval == 1);
+
+                        if ((cval == 3 || cval == 4) && S2onGreen == false )
+                           Flag=1;
+
+
+                        result = ReadSensorColorEx(S3, cval, rawData, normData, scaledData);
+                        sensor2 = (cval == 1);
+
+                        if ((cval == 3 || cval == 4) && S2onGreen == false )
+                           Flag=1;
+
+                 }
+                 Off(OUT_BC);
+                 Release(moveMutex);
+          }
+
+         if( sensor1 == true && sensor2 == false && !GreenCounter)
+         {
+                 Acquire(moveMutex);
+                 while (sensor1 == true && sensor2 == false && !GreenCounter)
+                 {
+                        OnFwd(OUT_B, maxSpeedF);
+
+                        result = ReadSensorColorEx(S2, cval, rawData, normData, scaledData);
+                        sensor1 = (cval == 1);
+                        
+                        if ((cval == 3 || cval == 4) && S2onGreen == false )
+                            Flag=1;
+
+
+                        result = ReadSensorColorEx(S3, cval, rawData, normData, scaledData);
+                        sensor2 = (cval == 1);
+
+                        if ((cval == 3 || cval == 4) && S2onGreen == false )
+                           Flag=1;
+                 }
+                 Off(OUT_B);
+                 Release(moveMutex);
+         }
+
+         if(sensor1 == false && sensor2 == true && !GreenCounter)
+         {
+                 Acquire(moveMutex);
+                 while (sensor1 == false && sensor2 == true && !GreenCounter)
+                 {
+                        OnFwd(OUT_C, maxSpeedF);
+
+                        result = ReadSensorColorEx(S2, cval, rawData, normData, scaledData);
+                        sensor1 = (cval == 1);
+
+                        if ((cval == 3 || cval == 4) && S2onGreen == false )
+                           Flag=1;
+
+
+                        result = ReadSensorColorEx(S3, cval, rawData, normData, scaledData);
+                        sensor2 = (cval == 1);
+
+                        if ((cval == 3 || cval == 4) && S2onGreen == false )
+                           Flag=1;
+                }
+                Off(OUT_C);
+                Release(moveMutex);
+         }
+      }
+      
+      OnFwd(OUT_BC,65); Wait(350);
+      Acquire(moveMutex);
+      {OnRev(OUT_B,40);
+       OnFwd(OUT_C,45);
+      }Wait(1650);
+      Off(OUT_BC);
+      Wait(100);
+      
+      int cval1, cval2, result1, result2;
+      
+      do
+      {
+          OnFwd(OUT_BC,65);
+          Wait(100);
+          result1 = ReadSensorColorEx(S3, cval1, rawData, normData, scaledData);
+          result2 = ReadSensorColorEx(S2, cval1, rawData, normData, scaledData);
+
+      }
+      while( cval1!=2 && cval!=2 );
+
+      OnFwd(OUT_BC, 65); Wait(550);
+      Off(OUT_BC);
+      Wait(100);
+      Release(moveMutex);
+      Stop(true);
+}
